@@ -27,41 +27,16 @@ namespace Inferances
             set;
         }
 
-        bool inPar
-        {
-            get;
-            set;
-        }
-
         string name
         {
             get;
             set;
         }
-
-        double currExp
-        {
-            get;
-            set;
-        }
-
-        double maxExp
-        {
-            get;
-            set;
-        }
-
-        int level
-        {
-            get;
-            set;
-        }
-
-        void CheckLevl();
     }
 
-    interface IAttack
+    interface IParty
     {
         void Attack(Party other);
+        void UseItem();
     }
 }

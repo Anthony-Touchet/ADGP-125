@@ -5,22 +5,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Inferances;
 using FSM;
+using Items;
 
 namespace BattleRanks
 {
     class Unit : IStats
     {
-        public int maxHealth;
-        int _health;
-        int _attack;
-        int _speed;
-        bool _inPar;
-        string _name;
-        double _currExp;
-        double _maxExp;
-        int _level;
+        public int maxHealth;   //How much health the Unit can Have.
+        int _health;            //how close to not being able to do Actions are you.
+        int _attack;            //How much health will be taken away when this Unit attacks another
+        int _speed;             //When can this Unit Attack when it is this Unit's Party's trun
+        string _name;           //What the console will call to identify this Unit
+        public bool inPar;      //Tells if this unit is part of a class or not.
+        public double currExp;  //The Current amount of experiance this Unit Has From reaching the next level.
+        public double maxExp;   //The amount of experiance needed to reach the next level
+        public int level;       //Determines how much to increase the Unit's base stats by
+        public Item uitem;      //The Item that the Unit will carry
 
-        Unit(int a, int h, int s, bool iP, string n, double cEx, double mEx, int l)
+        public Unit(int a, int h, int s, bool iP, string n, double cEx, double mEx, int l, Item i)
         {
             attack = a;
             health = h;
@@ -31,6 +33,7 @@ namespace BattleRanks
             currExp = cEx;
             maxExp = mEx;
             level = l;
+            uitem = i;
         }
 
         public int health
@@ -72,19 +75,6 @@ namespace BattleRanks
             }
         }
 
-        public bool inPar
-        {
-            get
-            {
-                return inPar;
-            }
-
-            set
-            {
-                _inPar = value;
-            }
-        }
-
         public string name
         {
             get
@@ -98,111 +88,153 @@ namespace BattleRanks
             }
         }
 
-        public double currExp
+        public void CheckLevl() //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
         {
-            get
+            if(currExp >= maxExp)   //If current experiance is greater or equal to the max experiance.
             {
-                return _currExp;
-            }
+                currExp = 0;    //Current experiance set to 0
+                maxExp = maxExp * 1.1;  //Next level need 10 percent more experiance to get to.
+                Console.WriteLine(name + " is now at level " + (level +1) + ".");
+                if (level % 3 == 0 || level == 0)   // Level is 0 or Divisable by 3
+                {
+                    maxHealth += 10;    //Increase Max Health by 10
+                    Console.WriteLine("And has gained 10 max health.");
+                }
 
-            set
-            {
-                _currExp = value;
-            }
-        }
+                else if(level % 3 == 1) //if level has a remainder of 1.
+                {
+                    attack += 10;   //Increase Attack by 10
+                    Console.WriteLine("And has gained 10 attack damage.");
+                }
 
-        public double maxExp
-        {
-            get
-            {
-                return _maxExp;
-            }
-
-            set
-            {
-                _maxExp = value;
-            }
-        }
-
-        public int level
-        {
-            get
-            {
-                return _level;
-            }
-
-            set
-            {
-                _level = value;
-            }
-        }
-
-        public void CheckLevl()
-        {
-            if(currExp >= maxExp)
-            {
-                currExp = 0;
-                maxExp = maxExp * 1.1;
-                level++;
+                else if (level % 3 == 2)    //if Level has a remainder of 2
+                {
+                    speed += 10;    //Increase speed by 10
+                    Console.WriteLine("And has gained 10 speed.");
+                }
+                level++;    //Increase level by 1
+                
             }
         }
     }
 
-    class Party : IAttack
+    class Party : IParty    //The Object which will store the units and control their actions.
     {
-        List<Unit> team = new List<Unit>();
-        FSM<Enum> turnHandler = new FSM<Enum>(TurnStates.WAIT);
-        Unit currUnit;
+        public List<Unit> team = new List<Unit>();                      //Actual Storage of the Units
+        public FSM<Enum> turnHandler = new FSM<Enum>(TurnStates.WAIT);  //Finite State Machine that determines which actions the Party will preform with the Units.
+        public Unit currUnit;   //Unit that is currently being used for the party's actions
 
-        enum TurnStates
+        public enum TurnStates  //States for the Party
         {
-            WAIT = 0,
-            USE = 1,
-            ATTACK = 2,
-            END = 3,
+            WAIT = 0,   //Party will do nothing while in this state
+            USE = 1,    //Party will use an item on the current Unit at this state
+            ATTACK = 2, //Party will attack with the current Unit at this state
+            END = 3,    //Signals When the party will change current Units.
         }
 
-        Party()
+        public Party()
         {
-            turnHandler.AddState(TurnStates.USE);
+            turnHandler.AddState(TurnStates.USE);       //Adds States to the Party's FSM
             turnHandler.AddState(TurnStates.ATTACK);
             turnHandler.AddState(TurnStates.END);
-            turnHandler.AddTransition(TurnStates.WAIT, TurnStates.USE);
-            turnHandler.AddTransition(TurnStates.USE, TurnStates.ATTACK);
+            turnHandler.AddTransition(TurnStates.WAIT, TurnStates.USE);     //Adding Valid Transitions between states for the FSM
+            turnHandler.AddTransition(TurnStates.USE, TurnStates.ATTACK);   
             turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.USE);
             turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.END);
             turnHandler.AddTransition(TurnStates.END, TurnStates.USE);
             turnHandler.AddTransition(TurnStates.END, TurnStates.WAIT);
         }
 
-        public void Attack(Party other)
+        public void StartMachine()  //Starts the FSM for use in the program
         {
-            turnHandler.SwitchStates(TurnStates.ATTACK);    //Sets State to Attack
-            team = team.OrderByDescending(o => o.speed).ToList();   //Sorts List by highest to lowest speed
-            currUnit = team[0];
+            turnHandler.SwitchStates(TurnStates.USE);   //Use is the first action ever done.
+        }
 
-            for (int a = 0; a < other.team.Count; a++)  //Getting a target
+        public bool AddUnit(Unit u)     //Adds a Unit to a party
+        {
+            if (u.inPar == true)  //Does this unit already belong to a party?
             {
-                if (other.team[team.Count - 1].health > 0)         //Does it have health.
-                {
-                    other.team[team.Count - 1].health -= currUnit.attack;
-                    Console.WriteLine(currUnit.name + " attacks " + other.team[team.Count - 1].name);
-                    Console.WriteLine(other.team[team.Count - 1].name + "'s health is now " + other.team[team.Count - 1].health);
-                    break;
-                }
+                Console.WriteLine("This Unit is already in a Party.");    //If the Unit is in a party.
+                return false;
             }
 
-            if (team.IndexOf(currUnit) + 1 == team.Count)
+            team.Add(u);    //If the Unit is not in this class.
+            u.inPar = true; //Unit is in a party
+            team = team.OrderByDescending(o => o.speed).ToList();   //Sorts List by highest to lowest speed
+            currUnit = team[0];
+            return true;
+        }
+
+        public void Attack(Party other) //The Party will attack a Unit of another Party using the stats of this party's current Unit.
+        {
+            if(team.Count >= 2) //If there are 2 or more pople
             {
-                currUnit = team[0];
+                team = team.OrderByDescending(o => o.speed).ToList();   //Sorts List by highest to lowest speed
+            }
+            
+            for (int a = other.team.Count - 1; a >= 0; a--)  //Getting a target
+            {
+                if(currUnit.health > 0) //
+                {
+                    if (other.team[a].health > 0)         //Does other have health.
+                    {
+                        other.team[a].health -= currUnit.attack;    //Sets other's health
+                        if (other.team[a].health > 0)   //If other's health is greater than 0
+                        {
+                            Console.WriteLine(currUnit.name + " attacks " + other.team[a].name);
+                            Console.WriteLine(other.team[a].name + "'s health is now " + other.team[a].health); //Give Results
+                        }
+
+                        else    //If other's health is less than or equal to 0
+                        {
+                            Console.WriteLine(other.team[a].name + " has died!! " + currUnit.name + " has gained 10 experiance.");  //They died
+                            currUnit.currExp += 10; //Award current Unit Experiance
+                            currUnit.CheckLevl();   //Check Current Unit's Level
+                        }
+                        break;  //Stop loop
+                    }
+
+                    //If Unit targeted has no health, keep searching through the list. larger index to smaller index
+                } 
+            }
+
+            //Switch Current Unit
+            if (team.IndexOf(currUnit) + 1 == team.Count)   //If Unit is at the End of a party.
+            {
+                currUnit = team[0];                             //Next is Begining one
+                turnHandler.SwitchStates(TurnStates.END);       //Switch States to end Turn
+                other.turnHandler.SwitchStates(TurnStates.USE); //Set other FSM to start
+                turnHandler.SwitchStates(TurnStates.WAIT);      //Set this FSM to Wait till next turn.
             }
 
             else
             {
-                currUnit = team[team.IndexOf(currUnit) + 1];
+                currUnit = team[team.IndexOf(currUnit) + 1];    //Set current Unit to the next one in the list
+                turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
             }
+        }
 
-            turnHandler.SwitchStates(TurnStates.END);
+        public bool PartyHealth()   //Checks the Health of all Units in the party and tells if they are alive
+        {
+            foreach(Unit u in team) //For every Unit in team
+            {
+                if(u.health > 0)    //if Thier health is greater than 0
+                {
+                    return true;    //Break and return true
+                }
+            }
+            return false;           //No one has health and return false.
+        }
+
+        public void UseItem()   //Party uses Unit's item on the Unit
+        {
+            if(currUnit.health <= (currUnit.maxHealth / 2) && currUnit.health > 0 && currUnit.uitem.health > 0)
+            {
+                Console.WriteLine(currUnit.name + " uses " + currUnit.uitem.name + " and has " + currUnit.health + " health.");
+                currUnit.health += currUnit.uitem.health;   //Give Unit Item's Health
+                currUnit.uitem.health = 0;  //Set item's health to 0
+            }
+            turnHandler.SwitchStates(TurnStates.ATTACK);    //Sets State to Attack
         }
     }
 }
