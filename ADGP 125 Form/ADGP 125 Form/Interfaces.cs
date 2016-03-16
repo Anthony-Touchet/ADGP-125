@@ -10,12 +10,14 @@ using GameManager;
 namespace Inferances
 {
     interface IGameManager
-    { 
+    {
         Party goodGuys { get; set; }
         Party badGuys { get; set; }
 
-        Party CreateParty(Party create);
+        Party CreateParty(Party create, string type);
         Enum StartMachine();
+
+        GM GameControl();
     }
 
     interface IDamageable
@@ -56,7 +58,7 @@ namespace Inferances
         FSM<Enum> turnHandler { get; set; }  //Finite State Machine that determines which actions the Party will preform with the Units.
         Unit currUnit { get; set; }   //Unit that is currently being used for the party's actions
 
-        void Attack(IParty other);
-        void UseItem();
+        IParty Attack(IParty other);
+        Unit UseItem();
     }
 }
