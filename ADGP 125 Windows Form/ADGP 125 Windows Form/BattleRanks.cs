@@ -8,7 +8,8 @@ using ADGP_125_Form;
 
 namespace BattleRanks
 {
-    class Unit : IStats, IDamageable
+    [Serializable]
+    public class Unit : IStats, IDamageable
     {
         BattleLog batLog = new BattleLog();
         public int maxHealth;   //How much health the Unit can Have.
@@ -21,6 +22,11 @@ namespace BattleRanks
         public double maxExp;   //The amount of experiance needed to reach the next level
         public int level;       //Determines how much to increase the Unit's base stats by
         public Item uitem;      //The Item that the Unit will carry
+
+        public Unit()  //Unit Constructor
+        {
+
+        }
 
         public Unit(int a, int h, int s, bool iP, string n, double cEx, double mEx, int l, Item i)  //Unit Constructor
         {
@@ -117,17 +123,18 @@ namespace BattleRanks
             }
         }
 
-        public int TakeDamage(IStats other)
+        int IDamageable.TakeDamage(IStats other)
         {
             return health -= other.attack;    //Sets other's health
         }
     }
 
+    [Serializable]
     class Party : IParty    //The Object which will store the units and control their actions.
     {
         public static BattleLog BatLog = new BattleLog();
         List<Unit> _team = new List<Unit>();
-        FSM<Enum> _turnHandler = new FSM<Enum>(TurnStates.WAIT);
+        public FSM<Enum> _turnHandler = new FSM<Enum>(TurnStates.WAIT);
         Unit _currUnit;
 
         public List<Unit> team

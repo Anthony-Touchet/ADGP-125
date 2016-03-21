@@ -2,7 +2,7 @@
 
 namespace Items
 {
-    class Item : IStats
+    public class Item : IStats
     {
         int _health;
         int _attack;
