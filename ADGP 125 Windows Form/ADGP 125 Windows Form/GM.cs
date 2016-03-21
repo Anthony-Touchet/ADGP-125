@@ -137,7 +137,7 @@ namespace GameManager
             return this;
         }
 
-        public GM SaveGame()
+        public GM SaveGame()    //Save the Units and the State of the Parties
         {
             XmlDocument saveFile = new XmlDocument();
             XmlElement parties = saveFile.CreateElement("Parties");
@@ -195,7 +195,7 @@ namespace GameManager
             return this;
         }
 
-        public GM LoadGame(RichTextBox loadBox)
+        public GM LoadGame(RichTextBox loadBox) //Get Those Stats and states Back
         {
             XmlDocument loadFile = new XmlDocument();   //Set Instance
             loadFile.Load("SaveFile.xml");              //Set File
@@ -241,15 +241,15 @@ namespace GameManager
 
                         else
                         {
-                            badGuys.team[counter % 5].name = unit.Name;
-                            badGuys.team[counter % 5].maxHealth = int.Parse(unit.GetAttribute("Maxhealth"));
-                            badGuys.team[counter % 5].health = int.Parse(unit.GetAttribute("health"));
-                            badGuys.team[counter % 5].attack = int.Parse(unit.GetAttribute("attack"));
-                            badGuys.team[counter % 5].speed = int.Parse(unit.GetAttribute("speed"));
-                            badGuys.team[counter % 5].currExp = int.Parse(unit.GetAttribute("CurrEXP"));
-                            badGuys.team[counter % 5].maxExp = int.Parse(unit.GetAttribute("MaxEXP"));
-                            badGuys.team[counter % 5].level = int.Parse(unit.GetAttribute("Level"));
-                            badGuys.team[counter % 5].inPar = bool.Parse(unit.GetAttribute("InPar"));
+                            badGuys.team[counter % goodGuys.team.Count].name = unit.Name;
+                            badGuys.team[counter % goodGuys.team.Count].maxHealth = int.Parse(unit.GetAttribute("Maxhealth"));
+                            badGuys.team[counter % goodGuys.team.Count].health = int.Parse(unit.GetAttribute("health"));
+                            badGuys.team[counter % goodGuys.team.Count].attack = int.Parse(unit.GetAttribute("attack"));
+                            badGuys.team[counter % goodGuys.team.Count].speed = int.Parse(unit.GetAttribute("speed"));
+                            badGuys.team[counter % goodGuys.team.Count].currExp = int.Parse(unit.GetAttribute("CurrEXP"));
+                            badGuys.team[counter % goodGuys.team.Count].maxExp = int.Parse(unit.GetAttribute("MaxEXP"));
+                            badGuys.team[counter % goodGuys.team.Count].level = int.Parse(unit.GetAttribute("Level"));
+                            badGuys.team[counter % goodGuys.team.Count].inPar = bool.Parse(unit.GetAttribute("InPar"));
                             foreach (XmlElement i in unit)//Get Unit's item
                             {
                                 badGuys.team[counter % 5].uitem.health = int.Parse(i.GetAttribute("itemHealth"));
