@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ADGP_125_Form.Properties
+namespace ADGP_125_Windows_Form.Properties
 {
 
 

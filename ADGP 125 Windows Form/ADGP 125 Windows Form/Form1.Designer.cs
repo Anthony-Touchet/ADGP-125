@@ -1,4 +1,7 @@
-﻿namespace ADGP_125_Form
+﻿using System.Windows.Forms;
+using System.Drawing;
+
+namespace ADGP_125_Form
 {
     partial class Form1
     {
@@ -49,6 +52,9 @@
             this.bgPhase = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Button();
+            this.loadGame = new System.Windows.Forms.Button();
+            this.loadBox = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // CurrentUnit
@@ -123,6 +129,7 @@
             this.button1.TabIndex = 10;
             this.button1.Text = "Next Phase";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Visible = false;
             this.button1.Click += new System.EventHandler(this.nextFSMPhase);
             // 
             // startBattle
@@ -140,9 +147,11 @@
             // 
             this.battleTextBox.Location = new System.Drawing.Point(12, 9);
             this.battleTextBox.Name = "battleTextBox";
+            this.battleTextBox.ReadOnly = true;
             this.battleTextBox.Size = new System.Drawing.Size(521, 175);
             this.battleTextBox.TabIndex = 12;
             this.battleTextBox.Text = "";
+            this.battleTextBox.Visible = false;
             // 
             // switchButton
             // 
@@ -244,11 +253,45 @@
             this.label8.TabIndex = 24;
             this.label8.Text = "Bad Party\'s Phase:";
             // 
+            // saveButton
+            // 
+            this.saveButton.Location = new System.Drawing.Point(12, 344);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 25;
+            this.saveButton.Text = "Save Game";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Visible = false;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // loadGame
+            // 
+            this.loadGame.Location = new System.Drawing.Point(12, 382);
+            this.loadGame.Name = "loadGame";
+            this.loadGame.Size = new System.Drawing.Size(93, 23);
+            this.loadGame.TabIndex = 26;
+            this.loadGame.Text = "Load Last Game";
+            this.loadGame.UseVisualStyleBackColor = true;
+            this.loadGame.Visible = false;
+            this.loadGame.Click += new System.EventHandler(this.loadGame_Click);
+            // 
+            // loadBox
+            // 
+            this.loadBox.Location = new System.Drawing.Point(13, 412);
+            this.loadBox.Name = "loadBox";
+            this.loadBox.Size = new System.Drawing.Size(258, 96);
+            this.loadBox.TabIndex = 27;
+            this.loadBox.Text = "";
+            this.loadBox.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 527);
+            this.ClientSize = new System.Drawing.Size(643, 527);
+            this.Controls.Add(this.loadBox);
+            this.Controls.Add(this.loadGame);
+            this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label8);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.bgPhase);
@@ -299,6 +342,9 @@
         private System.Windows.Forms.Label bgPhase;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
+        private Button saveButton;
+        private Button loadGame;
+        private RichTextBox loadBox;
     }
 }
 

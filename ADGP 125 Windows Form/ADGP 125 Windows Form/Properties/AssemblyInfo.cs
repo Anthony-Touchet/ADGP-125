@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ADGP 125 Form")]
+[assembly: AssemblyTitle("ADGP 125 Windows Form")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Academy of Interactive Entertainment")]
-[assembly: AssemblyProduct("ADGP 125 Form")]
+[assembly: AssemblyProduct("ADGP 125 Windows Form")]
 [assembly: AssemblyCopyright("Copyright © Academy of Interactive Entertainment 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("c3b83b00-0679-4bc5-b535-f874dab6ef87")]
+[assembly: Guid("c0841f8f-6f9f-49c3-9961-60289823e9aa")]
 
 // Version information for an assembly consists of the following four values:
 //

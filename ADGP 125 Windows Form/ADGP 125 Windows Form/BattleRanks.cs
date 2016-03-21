@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Inferances;
 using FSM;
 using Items;
 using ADGP_125_Form;
-using System.Windows.Forms;
 
 namespace BattleRanks
 {
@@ -128,7 +125,7 @@ namespace BattleRanks
 
     class Party : IParty    //The Object which will store the units and control their actions.
     {
-        BattleLog BatLog = new BattleLog();
+        public static BattleLog BatLog = new BattleLog();
         List<Unit> _team = new List<Unit>();
         FSM<Enum> _turnHandler = new FSM<Enum>(TurnStates.WAIT);
         Unit _currUnit;
@@ -172,7 +169,7 @@ namespace BattleRanks
             }
         }
 
-        enum TurnStates  //States for the Party
+        public enum TurnStates  //States for the Party
         {
             WAIT = 0,   //Party will do nothing while in this state
             USE = 1,    //Party will use an item on the current Unit at this state
@@ -224,13 +221,15 @@ namespace BattleRanks
                         other.team[a].health = other.team[a].TakeDamage(currUnit);
                         if (other.team[a].health > 0)   //If other's health is greater than 0
                         {
-                            BatLog.BB.AppendText(currUnit.name + " attacks " + other.team[a].name);
+                            BatLog.BB.AppendText(currUnit.name + " attacks " + other.team[a].name + ". ");
                             BatLog.BB.AppendText(other.team[a].name + "'s health is now " + other.team[a].health); //Give Results
                         }
 
                         else    //If other's health is less than or equal to 0
                         {
+                            BatLog.BB.AppendText(currUnit.name + " attacks " + other.team[a].name + ". ");
                             BatLog.BB.AppendText(other.team[a].name + " has died!! " + currUnit.name + " has gained 10 experiance.");  //They died
+                            other.team[a].health = 0;   //Sets other's health to 0
                             currUnit.currExp += 10; //Award current Unit Experiance
                             currUnit.CheckLevl();   //Check Current Unit's Level
                         }
@@ -259,8 +258,8 @@ namespace BattleRanks
         {
             if(currUnit.health <= (currUnit.maxHealth / 2) && currUnit.health > 0 && currUnit.uitem.health > 0)
             {
-                BatLog.BB.AppendText(currUnit.name + " uses " + currUnit.uitem.name + " and has " + currUnit.health + " health.");
                 currUnit.health += currUnit.uitem.health;   //Give Unit Item's Health
+                BatLog.BB.AppendText(currUnit.name + " uses " + currUnit.uitem.name + " and has " + currUnit.health + " health.");
                 currUnit.uitem.health = 0;  //Set item's health to 0
             }
             return currUnit;

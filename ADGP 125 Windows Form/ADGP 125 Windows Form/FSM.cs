@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FSM
 {
@@ -76,8 +73,6 @@ namespace FSM
             temp.from = this.currentState;  //Coming from the current state
             temp.to = to;
 
-            List<Link<T>> tempL;
-            bool tempb = dict.TryGetValue(currentState, out tempL);
             foreach (Link<T> l in dict[currentState])  //Check Transitions for this State/Key
             {
                 if (l.Equals(temp)) //If Transition Exists, 
