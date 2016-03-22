@@ -20,36 +20,39 @@ namespace ADGP_125_Form
 
         private void nextFSMPhase(object sender, EventArgs e)
         {
-            ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();
-            bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();
-            gameHandler = gameHandler.GameControl();    //Controls the machine    
+            gameHandler = gameHandler.GameControl();    //Controls the machine
+            ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();    //Shows current phase of Good Guys Party
+            bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();     //Shows current phase of Bad Guys Party
+            GPCurrentUnit.Text = gameHandler.goodGuys.currUnit.name;                    //Shows Current Unit of the Good Party
+            BPCurrentUnit.Text = gameHandler.badGuys.currUnit.name;                     //SHows Current Unit of the Bad Party
+                
             battleTextBox.AppendText(Party.BatLog.BB.Text);   //Append Text to RichTextBox
-            if(Party.BatLog.BB.Text != "")
+            if(Party.BatLog.BB.Text != "")  //If the TextLog is not empty, add a line space.
             {
                 battleTextBox.AppendText("\n");
             }
             Party.BatLog.BB.Text = "";        //Clear Singleton's Text
         }
 
-        private void startFSM(object sender, EventArgs e)
+        private void startFSM(object sender, EventArgs e)   //Starts The FSM, Generates Units, and Turns on Buttons.
         {
-            gameHandler.goodGuys = new Party();
-            gameHandler.badGuys = new Party();
-            gameHandler.goodGuys = gameHandler.CreateParty(gameHandler.goodGuys, "Good");//First Party
-            gameHandler.badGuys = gameHandler.CreateParty(gameHandler.badGuys, "Bad");//Second Party
+            gameHandler.goodGuys = new Party();     //The Good Guys
+            gameHandler.badGuys = new Party();      //The Bad Guys
+            gameHandler.goodGuys = gameHandler.CreateParty(gameHandler.goodGuys, "Good");   //Creating First Party.
+            gameHandler.badGuys = gameHandler.CreateParty(gameHandler.badGuys, "Bad");      //Creating Second Party.
 
-            foreach(Unit u in gameHandler.goodGuys.team)
+            foreach(Unit u in gameHandler.goodGuys.team)    //Populates the Unit Shower With the Good Guys
             {
                 attributeShower.Add(u);
             }
 
-            foreach (Unit u in gameHandler.badGuys.team)
+            foreach (Unit u in gameHandler.badGuys.team)    //Populates the Unit Shower with the Bad Guys
             {
                 attributeShower.Add(u);
             }
 
-            gameHandler.goodGuys.turnHandler.currentState = gameHandler.StartMachine();
-            ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();
+            gameHandler.goodGuys.turnHandler.currentState = gameHandler.StartMachine(); //Function that Starts the Machine.
+            ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();    //Displays the name of the Current state the Good Guys are in.
             bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();
             battleTextBox.Text = "";
             battleTextBox.AppendText("The Units Form their Ranks." + "\n");
@@ -91,6 +94,17 @@ namespace ADGP_125_Form
             gameHandler = gameHandler.LoadGame(loadBox);
             ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();
             bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();
+
+            attributeShower = new List<Unit>();
+            foreach(Unit u in gameHandler.goodGuys.team)
+            {
+                attributeShower.Add(u);
+            }
+
+            foreach (Unit u in gameHandler.badGuys.team)
+            {
+                attributeShower.Add(u);
+            }
         }
     }
 

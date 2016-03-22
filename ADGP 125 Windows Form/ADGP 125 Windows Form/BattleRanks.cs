@@ -5,13 +5,22 @@ using Inferances;
 using FSM;
 using Items;
 using ADGP_125_Form;
+using System.Xml.Serialization;
 
 namespace BattleRanks
 {
     [Serializable]
-    public class Unit : IStats, IDamageable
+    public enum TurnStates  //States for the Party
     {
-        BattleLog batLog = new BattleLog();
+        WAIT = 0,   //Party will do nothing while in this state
+        USE = 1,    //Party will use an item on the current Unit at this state
+        ATTACK = 2, //Party will attack with the current Unit at this state
+        END = 3,    //Signals When the party will change current Units.
+    }
+
+    [Serializable]
+    public class Unit : IStats
+    {
         public int maxHealth;   //How much health the Unit can Have.
         int _health;            //how close to not being able to do Actions are you.
         int _attack;            //How much health will be taken away when this Unit attacks another
@@ -21,6 +30,7 @@ namespace BattleRanks
         public double currExp;  //The Current amount of experiance this Unit Has From reaching the next level.
         public double maxExp;   //The amount of experiance needed to reach the next level
         public int level;       //Determines how much to increase the Unit's base stats by
+
         public Item uitem;      //The Item that the Unit will carry
 
         public Unit()  //Unit Constructor
@@ -94,47 +104,16 @@ namespace BattleRanks
             }
         }
 
-        public void CheckLevl() //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
-        {
-            if(currExp >= maxExp)   //If current experiance is greater or equal to the max experiance.
-            {
-                currExp = 0;    //Current experiance set to 0
-                maxExp = maxExp * 1.1;  //Next level need 10 percent more experiance to get to.
-                batLog.BB.AppendText(name + " is now at level " + (level +1) + ".");
-                if (level % 3 == 0 || level == 0)   // Level is 0 or Divisable by 3
-                {
-                    maxHealth += 10;    //Increase Max Health by 10
-                    batLog.BB.AppendText("And has gained 10 max health.");
-                }
 
-                else if(level % 3 == 1) //if level has a remainder of 1.
-                {
-                    attack += 10;   //Increase Attack by 10
-                    batLog.BB.AppendText("And has gained 10 attack damage.");
-                }
-
-                else if (level % 3 == 2)    //if Level has a remainder of 2
-                {
-                    speed += 10;    //Increase speed by 10
-                    batLog.BB.AppendText("And has gained 10 speed.");
-                }
-                level++;    //Increase level by 1
-                
-            }
-        }
-
-        int IDamageable.TakeDamage(IStats other)
-        {
-            return health -= other.attack;    //Sets other's health
-        }
     }
 
     [Serializable]
-    class Party : IParty    //The Object which will store the units and control their actions.
+    public class Party : IParty    //The Object which will store the units and control their actions.
     {
+        [XmlIgnore]
         public static BattleLog BatLog = new BattleLog();
+        public FSM<TurnStates> turnHandler = new FSM<TurnStates>(TurnStates.WAIT);
         List<Unit> _team = new List<Unit>();
-        public FSM<Enum> _turnHandler = new FSM<Enum>(TurnStates.WAIT);
         Unit _currUnit;
 
         public List<Unit> team
@@ -147,19 +126,6 @@ namespace BattleRanks
             set
             {
                 _team = value;
-            }
-        }
-
-        public FSM<Enum> turnHandler
-        {
-            get
-            {
-                return _turnHandler;
-            }
-
-            set
-            {
-                _turnHandler = value;
             }
         }
 
@@ -176,13 +142,6 @@ namespace BattleRanks
             }
         }
 
-        public enum TurnStates  //States for the Party
-        {
-            WAIT = 0,   //Party will do nothing while in this state
-            USE = 1,    //Party will use an item on the current Unit at this state
-            ATTACK = 2, //Party will attack with the current Unit at this state
-            END = 3,    //Signals When the party will change current Units.
-        }
 
         public Party()
         {
@@ -190,7 +149,7 @@ namespace BattleRanks
             turnHandler.AddState(TurnStates.ATTACK);
             turnHandler.AddState(TurnStates.END);
             turnHandler.AddTransition(TurnStates.WAIT, TurnStates.USE);     //Adding Valid Transitions between states for the FSM
-            turnHandler.AddTransition(TurnStates.USE, TurnStates.ATTACK);   
+            turnHandler.AddTransition(TurnStates.USE, TurnStates.ATTACK);
             turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.USE);
             turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.END);
             turnHandler.AddTransition(TurnStates.END, TurnStates.USE);
@@ -225,7 +184,7 @@ namespace BattleRanks
                 {
                     if (other.team[a].health > 0)         //Does other have health.
                     {
-                        other.team[a].health = other.team[a].TakeDamage(currUnit);
+                        other.team[a].health -= currUnit.attack;
                         if (other.team[a].health > 0)   //If other's health is greater than 0
                         {
                             BatLog.BB.AppendText(currUnit.name + " attacks " + other.team[a].name + ". ");
@@ -238,7 +197,7 @@ namespace BattleRanks
                             BatLog.BB.AppendText(other.team[a].name + " has died!! " + currUnit.name + " has gained 10 experiance.");  //They died
                             other.team[a].health = 0;   //Sets other's health to 0
                             currUnit.currExp += 10; //Award current Unit Experiance
-                            currUnit.CheckLevl();   //Check Current Unit's Level
+                            this.CheckLevl(currUnit);   //Check Current Unit's Level
                         }
                         break;  //Stop loop
                     }
@@ -270,6 +229,34 @@ namespace BattleRanks
                 currUnit.uitem.health = 0;  //Set item's health to 0
             }
             return currUnit;
+        }
+
+        public void CheckLevl(Unit other) //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
+        {
+            if (other.currExp >= other.maxExp)   //If current experiance is greater or equal to the max experiance.
+            {
+                other.currExp = 0;    //Current experiance set to 0
+                other.maxExp = other.maxExp * 1.1;  //Next level need 10 percent more experiance to get to.
+                BatLog.BB.AppendText(other.name + " is now at level " + (other.level + 1) + ".");
+                if (other.level % 3 == 0 || other.level == 0)   // Level is 0 or Divisable by 3
+                {
+                    other.maxHealth += 10;    //Increase Max Health by 10
+                    BatLog.BB.AppendText("And has gained 10 max health.");
+                }
+
+                else if (other.level % 3 == 1) //if level has a remainder of 1.
+                {
+                    other.attack += 10;   //Increase Attack by 10
+                    BatLog.BB.AppendText("And has gained 10 attack damage.");
+                }
+
+                else if (other.level % 3 == 2)    //if Level has a remainder of 2
+                {
+                    other.speed += 10;    //Increase speed by 10
+                    BatLog.BB.AppendText("And has gained 10 speed.");
+                }
+                other.level++;    //Increase level by 1
+            }
         }
     }
 }

@@ -55,6 +55,10 @@ namespace ADGP_125_Form
             this.saveButton = new System.Windows.Forms.Button();
             this.loadGame = new System.Windows.Forms.Button();
             this.loadBox = new System.Windows.Forms.RichTextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.GPCurrentUnit = new System.Windows.Forms.Label();
+            this.BPCurrentUnit = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // CurrentUnit
@@ -229,7 +233,7 @@ namespace ADGP_125_Form
             // bgPhase
             // 
             this.bgPhase.AutoSize = true;
-            this.bgPhase.Location = new System.Drawing.Point(132, 286);
+            this.bgPhase.Location = new System.Drawing.Point(132, 392);
             this.bgPhase.Name = "bgPhase";
             this.bgPhase.Size = new System.Drawing.Size(54, 13);
             this.bgPhase.TabIndex = 22;
@@ -247,7 +251,7 @@ namespace ADGP_125_Form
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(9, 286);
+            this.label8.Location = new System.Drawing.Point(9, 392);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(96, 13);
             this.label8.TabIndex = 24;
@@ -255,7 +259,7 @@ namespace ADGP_125_Form
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(12, 344);
+            this.saveButton.Location = new System.Drawing.Point(12, 512);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 25;
@@ -266,7 +270,7 @@ namespace ADGP_125_Form
             // 
             // loadGame
             // 
-            this.loadGame.Location = new System.Drawing.Point(12, 382);
+            this.loadGame.Location = new System.Drawing.Point(12, 541);
             this.loadGame.Name = "loadGame";
             this.loadGame.Size = new System.Drawing.Size(93, 23);
             this.loadGame.TabIndex = 26;
@@ -277,18 +281,58 @@ namespace ADGP_125_Form
             // 
             // loadBox
             // 
-            this.loadBox.Location = new System.Drawing.Point(13, 412);
+            this.loadBox.Location = new System.Drawing.Point(12, 570);
             this.loadBox.Name = "loadBox";
             this.loadBox.Size = new System.Drawing.Size(258, 96);
             this.loadBox.TabIndex = 27;
             this.loadBox.Text = "";
             this.loadBox.Visible = false;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(9, 286);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(84, 13);
+            this.label9.TabIndex = 28;
+            this.label9.Text = "GP Current Unit:";
+            // 
+            // GPCurrentUnit
+            // 
+            this.GPCurrentUnit.AutoSize = true;
+            this.GPCurrentUnit.Location = new System.Drawing.Point(131, 286);
+            this.GPCurrentUnit.Name = "GPCurrentUnit";
+            this.GPCurrentUnit.Size = new System.Drawing.Size(75, 13);
+            this.GPCurrentUnit.TabIndex = 29;
+            this.GPCurrentUnit.Text = "GPCurrentUnit";
+            // 
+            // BPCurrentUnit
+            // 
+            this.BPCurrentUnit.AutoSize = true;
+            this.BPCurrentUnit.Location = new System.Drawing.Point(131, 416);
+            this.BPCurrentUnit.Name = "BPCurrentUnit";
+            this.BPCurrentUnit.Size = new System.Drawing.Size(74, 13);
+            this.BPCurrentUnit.TabIndex = 31;
+            this.BPCurrentUnit.Text = "BPCurrentUnit";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(9, 416);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(83, 13);
+            this.label11.TabIndex = 30;
+            this.label11.Text = "BP Current Unit:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(643, 527);
+            this.ClientSize = new System.Drawing.Size(643, 678);
+            this.Controls.Add(this.BPCurrentUnit);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.GPCurrentUnit);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.loadBox);
             this.Controls.Add(this.loadGame);
             this.Controls.Add(this.saveButton);
@@ -345,6 +389,10 @@ namespace ADGP_125_Form
         private Button saveButton;
         private Button loadGame;
         private RichTextBox loadBox;
+        private Label label9;
+        private Label GPCurrentUnit;
+        private Label BPCurrentUnit;
+        private Label label11;
     }
 }
 

@@ -1,13 +1,20 @@
 ﻿using Inferances;
+using System;
 
 namespace Items
 {
+    [Serializable]
     public class Item : IStats
     {
         int _health;
         int _attack;
         int _speed;
         string _name;
+
+        public Item()
+        {
+            
+        }
 
         public Item(int h, int a, int s, string n)
         {
