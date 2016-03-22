@@ -54,7 +54,6 @@ namespace ADGP_125_Form
             this.label8 = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadGame = new System.Windows.Forms.Button();
-            this.loadBox = new System.Windows.Forms.RichTextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.GPCurrentUnit = new System.Windows.Forms.Label();
             this.BPCurrentUnit = new System.Windows.Forms.Label();
@@ -279,15 +278,6 @@ namespace ADGP_125_Form
             this.loadGame.Visible = false;
             this.loadGame.Click += new System.EventHandler(this.loadGame_Click);
             // 
-            // loadBox
-            // 
-            this.loadBox.Location = new System.Drawing.Point(12, 570);
-            this.loadBox.Name = "loadBox";
-            this.loadBox.Size = new System.Drawing.Size(258, 96);
-            this.loadBox.TabIndex = 27;
-            this.loadBox.Text = "";
-            this.loadBox.Visible = false;
-            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -333,7 +323,6 @@ namespace ADGP_125_Form
             this.Controls.Add(this.label11);
             this.Controls.Add(this.GPCurrentUnit);
             this.Controls.Add(this.label9);
-            this.Controls.Add(this.loadBox);
             this.Controls.Add(this.loadGame);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.label8);
@@ -388,7 +377,6 @@ namespace ADGP_125_Form
         private System.Windows.Forms.Label label8;
         private Button saveButton;
         private Button loadGame;
-        private RichTextBox loadBox;
         private Label label9;
         private Label GPCurrentUnit;
         private Label BPCurrentUnit;

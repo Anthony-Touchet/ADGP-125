@@ -255,6 +255,7 @@ namespace BattleRanks
                     other.speed += 10;    //Increase speed by 10
                     BatLog.BB.AppendText("And has gained 10 speed.");
                 }
+                other.health = other.maxHealth;
                 other.level++;    //Increase level by 1
             }
         }

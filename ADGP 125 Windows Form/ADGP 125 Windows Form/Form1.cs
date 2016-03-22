@@ -53,62 +53,62 @@ namespace ADGP_125_Form
 
             gameHandler.goodGuys.turnHandler.currentState = gameHandler.StartMachine(); //Function that Starts the Machine.
             ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();    //Displays the name of the Current state the Good Guys are in.
-            bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();
-            battleTextBox.Text = "";
-            battleTextBox.AppendText("The Units Form their Ranks." + "\n");
-            battleTextBox.Visible = true;
-            button1.Visible = true;
-            saveButton.Visible = true;
-            loadGame.Visible = true;
-            loadBox.Visible = true;
+            bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();     //Displays the name of the Current State the Bad Guys are in.
+            battleTextBox.Text = "";            //Making sure the textbox is Empty
+            battleTextBox.AppendText("The Units Form their Ranks." + "\n"); //Starting phrase.
+            battleTextBox.Visible = true;   //Turns on the Battle Box/Log
+            button1.Visible = true;         //Turns on the Next Phase Button
+            saveButton.Visible = true;      //Turns on the Save Button
+            loadGame.Visible = true;        //Turns on the Load Last Game Button     
         }
 
         private void switchButton_Click(object sender, EventArgs e)
         {
-                if (listCount < 0)
+                if (listCount < 0)  //If count Ever goes below 0, it's now 0
                 {
                     listCount = 0;
                 }
-                cuName.Text = attributeShower[listCount].name;
-                cuHealth.Text = attributeShower[listCount].health.ToString() + " / " + attributeShower[listCount].maxHealth.ToString();
-                cuAttack.Text = attributeShower[listCount].attack.ToString();
-                cuSpeed.Text = attributeShower[listCount].speed.ToString();
-                cuCurExp.Text = attributeShower[listCount].currExp.ToString() + " / " + attributeShower[listCount].maxExp.ToString();
-                cuLevel.Text = attributeShower[listCount].level.ToString();
+                cuName.Text = attributeShower[listCount].name;                  //Shows the Unit's name
+                cuHealth.Text = attributeShower[listCount].health.ToString() + " / " + attributeShower[listCount].maxHealth.ToString(); //Shows the current and max health of the unit.
+                cuAttack.Text = attributeShower[listCount].attack.ToString();   //Shows the attack power of the Unit
+                cuSpeed.Text = attributeShower[listCount].speed.ToString();     //Shows the Speed of the Unit
+                cuCurExp.Text = attributeShower[listCount].currExp.ToString() + " / " + attributeShower[listCount].maxExp.ToString();   //Shows the current exp and the Max EXP of the Unit
+                cuLevel.Text = attributeShower[listCount].level.ToString();     //Shows the level of the Unit.
 
-                listCount++;
-                if (listCount >= attributeShower.Count)
+                listCount++;    //Enumeration through the list.
+                if (listCount >= attributeShower.Count)     //If Enumeration is above the capacity of the list.
                 {
-                    listCount = 0;
+                    listCount = 0;      //Set to 0
                 }
         }
 
-        private void saveButton_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)   //Saving the state of the Game, Units, and Parties' states.
         {
             gameHandler.SaveGame();
         }
 
-        private void loadGame_Click(object sender, EventArgs e)
+        private void loadGame_Click(object sender, EventArgs e)     //Load the States of the last Game that was saved.
         {
-            startFSM(sender, e);
-            gameHandler = gameHandler.LoadGame(loadBox);
-            ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();
-            bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();
+            startFSM(sender, e);    //Restart Game
+            battleTextBox.AppendText("Game Has Been Loaded." + "\n");   //Say game is loaded
+            gameHandler = gameHandler.LoadGame();                       //Load the Game
+            ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();    //Display the current state for Good Guys
+            bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();     //Display the State of the Bad Guys
 
-            attributeShower = new List<Unit>();
-            foreach(Unit u in gameHandler.goodGuys.team)
+            attributeShower = new List<Unit>();         //Repopulate the Atrribue Shower List.
+            foreach(Unit u in gameHandler.goodGuys.team)//The Good Guys from the Load file in Attribute SHower.
             {
                 attributeShower.Add(u);
             }
 
-            foreach (Unit u in gameHandler.badGuys.team)
+            foreach (Unit u in gameHandler.badGuys.team)//THe Bad guys from the load file in Attribute SHower.
             {
                 attributeShower.Add(u);
             }
         }
     }
 
-    public class BattleLog
+    public class BattleLog  //The Holding box for text that will show on the actual text box on this form.
     {
         public RichTextBox BB = new RichTextBox();
         static private BattleLog _instance;

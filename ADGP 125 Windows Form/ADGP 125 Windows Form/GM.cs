@@ -10,7 +10,7 @@ namespace GameManager
 {
     public class GM : IGameManager
     {
-        static private GM _instance;
+        static private GM _instance;        //GM is a Singleton. There should only ever be one.
         static public GM instance
         {
             get
@@ -21,10 +21,10 @@ namespace GameManager
             }
         }
 
-        Party _goodGuys;
-        Party _badGuys;
+        Party _goodGuys;    //GM's Good Guys' Party
+        Party _badGuys;     //GM's Bad Guys' Party
 
-        public Party badGuys
+        public Party badGuys    //Get and set the Bad Guys
         {
             get
             {
@@ -37,7 +37,7 @@ namespace GameManager
             }
         }
 
-        public Party goodGuys
+        public Party goodGuys   //Get and set the Good Guys
         {
             get
             {
@@ -50,7 +50,7 @@ namespace GameManager
             }
         }
 
-        public Party CreateParty(Party create, string type)
+        public Party CreateParty(Party create, string type) //Function that creates a party for the GM and returns that party.
         {
             for(int c = 0; c < 10; c++)
             {
@@ -62,13 +62,13 @@ namespace GameManager
             return create;
         }
 
-        public TurnStates StartMachine()
+        public TurnStates StartMachine()    //Starts the Machine that is between the Good Guys and the Bad Guys.
         {
-            goodGuys.turnHandler.SwitchStates(TurnStates.USE);   //Use is the first action ever done.
+            goodGuys.turnHandler.SwitchStates(TurnStates.USE);   //Use is the first action to be done.
             return TurnStates.USE;
         }
 
-        public GM GameControl()
+        public GM GameControl()     //Controls the Flow of the FSM between the parties
         {
             if (goodGuys.PartyHealth() == true && badGuys.PartyHealth() == true)  //While there is still an alive Unit
             {
@@ -140,12 +140,12 @@ namespace GameManager
         
         public GM SaveGame()    //Save the Units and the State of the Parties
         { 
-            var goodpath = Environment.CurrentDirectory + "/GoodSaveFile.xml";
-            FileStream goodSaveFile = File.Create(goodpath);
+            var goodpath = Environment.CurrentDirectory + "/GoodSaveFile.xml";  //Makes the path to the file for the Good party.
+            FileStream goodSaveFile = File.Create(goodpath);                    //Actual creation of the path
 
-            XmlSerializer serial = new XmlSerializer(typeof(Party));
-            serial.Serialize(goodSaveFile, goodGuys);
-            goodSaveFile.Close();
+            XmlSerializer serial = new XmlSerializer(typeof(Party));            //The object that will serialize a Party Object
+            serial.Serialize(goodSaveFile, goodGuys);                           //Serializing the Party.
+            goodSaveFile.Close();                                               //Close this serializer.
 
             var badpath = Environment.CurrentDirectory + "/BadSaveFile.xml";
             FileStream badSaveFile = File.Create(badpath);
@@ -156,7 +156,7 @@ namespace GameManager
             return this;
         }
 
-        public GM LoadGame(RichTextBox loadBox) //Get Those Stats and states Back
+        public GM LoadGame() //Get Those Stats and states Back
         {
             XmlSerializer reader = new XmlSerializer(typeof(Party));
 
