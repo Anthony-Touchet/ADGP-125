@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using System.Xml;
 
 namespace FSM
 {
@@ -16,7 +18,7 @@ namespace FSM
         public T currentState;  //Current State of the FSM
         public List<T> states;
         public List<Link<T>> trans;
-
+     
         public FSM()
         {
 

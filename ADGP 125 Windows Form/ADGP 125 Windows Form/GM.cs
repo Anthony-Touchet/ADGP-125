@@ -79,21 +79,21 @@ namespace GameManager
                         if (goodGuys.team.IndexOf(goodGuys.currUnit) + 1 == goodGuys.team.Count)   //If Unit is at the End of a party.
                         {
                             goodGuys.currUnit = goodGuys.team[0];               //Next is Begining Unit
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.END);  //Switch States to end Turn
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.USE);   //Set other FSM to start
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.WAIT); //Set this FSM to Wait till next turn.
+                            goodGuys.turnHandler.SwitchStates(TurnStates.END);  //Switch States to end Turn
+                            badGuys.turnHandler.SwitchStates(TurnStates.USE);   //Set other FSM to start
+                            goodGuys.turnHandler.SwitchStates(TurnStates.WAIT); //Set this FSM to Wait till next turn.
                         }
 
                         else
                         {
                             goodGuys.currUnit = goodGuys.team[goodGuys.team.IndexOf(goodGuys.currUnit) + 1];    //Set current Unit to the next one in the list
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
+                            goodGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
                         }
                         break;
 
                     case "USE":
                         goodGuys.UseItem();  //Unit uses item on itself
-                        goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
+                        goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
                         break;
 
                     case "WAIT":    //Can not do anything because it is the other party's turn
@@ -110,21 +110,21 @@ namespace GameManager
                         if (badGuys.team.IndexOf(badGuys.currUnit) + 1 == badGuys.team.Count)   //If Unit is at the End of a party.
                         {
                             badGuys.currUnit = badGuys.team[0];             //Next is Begining Unit
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.END);       //Switch States to end Turn
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.USE);      //Set other FSM to start
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.WAIT);      //Set this FSM to Wait till next turn.
+                            badGuys.turnHandler.SwitchStates(TurnStates.END);       //Switch States to end Turn
+                            goodGuys.turnHandler.SwitchStates(TurnStates.USE);      //Set other FSM to start
+                            badGuys.turnHandler.SwitchStates(TurnStates.WAIT);      //Set this FSM to Wait till next turn.
                         }
 
                         else
                         {
                             badGuys.currUnit = badGuys.team[badGuys.team.IndexOf(badGuys.currUnit) + 1];    //Set current Unit to the next one in the list
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
+                            badGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
                         }
                         break;
 
                     case "USE":
                         badGuys.UseItem();  //Unit uses item on itself
-                        badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
+                        badGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
                         break;
 
                     case "WAIT":    //Can not do anything because it is the other party's turn

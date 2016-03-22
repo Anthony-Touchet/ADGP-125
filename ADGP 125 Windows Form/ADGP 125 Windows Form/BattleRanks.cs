@@ -112,7 +112,7 @@ namespace BattleRanks
     {
         [XmlIgnore]
         public static BattleLog BatLog = new BattleLog();
-        public FSM<TurnStates> turnHandler = new FSM<TurnStates>(TurnStates.WAIT);
+        FSM<TurnStates> _turnHandler = new FSM<TurnStates>(TurnStates.WAIT);      
         List<Unit> _team = new List<Unit>();
         Unit _currUnit;
 
@@ -139,6 +139,19 @@ namespace BattleRanks
             set
             {
                 _currUnit = value;
+            }
+        }
+
+        public FSM<TurnStates> turnHandler
+        {
+            get
+            {
+                return _turnHandler;
+            }
+
+            set
+            {
+                _turnHandler = value;
             }
         }
 
@@ -194,7 +207,7 @@ namespace BattleRanks
                         else    //If other's health is less than or equal to 0
                         {
                             BatLog.BB.AppendText(currUnit.name + " attacks " + other.team[a].name + ". ");
-                            BatLog.BB.AppendText(other.team[a].name + " has died!! " + currUnit.name + " has gained 10 experiance.");  //They died
+                            BatLog.BB.AppendText(other.team[a].name + " has died!! " + currUnit.name + " has gained 10 experiance. ");  //They died
                             other.team[a].health = 0;   //Sets other's health to 0
                             currUnit.currExp += 10; //Award current Unit Experiance
                             this.CheckLevl(currUnit);   //Check Current Unit's Level
@@ -225,7 +238,7 @@ namespace BattleRanks
             if(currUnit.health <= (currUnit.maxHealth / 2) && currUnit.health > 0 && currUnit.uitem.health > 0)
             {
                 currUnit.health += currUnit.uitem.health;   //Give Unit Item's Health
-                BatLog.BB.AppendText(currUnit.name + " uses " + currUnit.uitem.name + " and has " + currUnit.health + " health.");
+                BatLog.BB.AppendText(currUnit.name + " uses " + currUnit.uitem.name + " and has " + currUnit.health + " health. ");
                 currUnit.uitem.health = 0;  //Set item's health to 0
             }
             return currUnit;
@@ -237,23 +250,23 @@ namespace BattleRanks
             {
                 other.currExp = 0;    //Current experiance set to 0
                 other.maxExp = other.maxExp * 1.1;  //Next level need 10 percent more experiance to get to.
-                BatLog.BB.AppendText(other.name + " is now at level " + (other.level + 1) + ".");
+                BatLog.BB.AppendText(other.name + " is now at level " + (other.level + 1) + ". ");
                 if (other.level % 3 == 0 || other.level == 0)   // Level is 0 or Divisable by 3
                 {
                     other.maxHealth += 10;    //Increase Max Health by 10
-                    BatLog.BB.AppendText("And has gained 10 max health.");
+                    BatLog.BB.AppendText("And has gained 10 max health. ");
                 }
 
                 else if (other.level % 3 == 1) //if level has a remainder of 1.
                 {
                     other.attack += 10;   //Increase Attack by 10
-                    BatLog.BB.AppendText("And has gained 10 attack damage.");
+                    BatLog.BB.AppendText("And has gained 10 attack damage. ");
                 }
 
                 else if (other.level % 3 == 2)    //if Level has a remainder of 2
                 {
                     other.speed += 10;    //Increase speed by 10
-                    BatLog.BB.AppendText("And has gained 10 speed.");
+                    BatLog.BB.AppendText("And has gained 10 speed. ");
                 }
                 other.health = other.maxHealth;
                 other.level++;    //Increase level by 1
