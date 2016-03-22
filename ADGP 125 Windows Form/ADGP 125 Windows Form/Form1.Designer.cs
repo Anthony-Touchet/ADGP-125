@@ -58,6 +58,7 @@ namespace ADGP_125_Form
             this.GPCurrentUnit = new System.Windows.Forms.Label();
             this.BPCurrentUnit = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
+            this.switchButtonReverse = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // CurrentUnit
@@ -158,12 +159,13 @@ namespace ADGP_125_Form
             // 
             // switchButton
             // 
-            this.switchButton.Location = new System.Drawing.Point(388, 432);
+            this.switchButton.Location = new System.Drawing.Point(425, 423);
             this.switchButton.Name = "switchButton";
-            this.switchButton.Size = new System.Drawing.Size(75, 23);
+            this.switchButton.Size = new System.Drawing.Size(131, 23);
             this.switchButton.TabIndex = 13;
-            this.switchButton.Text = "Switch Unit";
+            this.switchButton.Text = "Switch Unit(Down List)";
             this.switchButton.UseVisualStyleBackColor = true;
+            this.switchButton.Visible = false;
             this.switchButton.Click += new System.EventHandler(this.switchButton_Click);
             // 
             // label1
@@ -314,11 +316,23 @@ namespace ADGP_125_Form
             this.label11.TabIndex = 30;
             this.label11.Text = "BP Current Unit:";
             // 
+            // switchButtonReverse
+            // 
+            this.switchButtonReverse.Location = new System.Drawing.Point(295, 423);
+            this.switchButtonReverse.Name = "switchButtonReverse";
+            this.switchButtonReverse.Size = new System.Drawing.Size(111, 23);
+            this.switchButtonReverse.TabIndex = 32;
+            this.switchButtonReverse.Text = "Switch Unit(Up List)";
+            this.switchButtonReverse.UseVisualStyleBackColor = true;
+            this.switchButtonReverse.Visible = false;
+            this.switchButtonReverse.Click += new System.EventHandler(this.switchButtonReverse_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(643, 678);
+            this.Controls.Add(this.switchButtonReverse);
             this.Controls.Add(this.BPCurrentUnit);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.GPCurrentUnit);
@@ -381,6 +395,7 @@ namespace ADGP_125_Form
         private Label GPCurrentUnit;
         private Label BPCurrentUnit;
         private Label label11;
+        private Button switchButtonReverse;
     }
 }
 

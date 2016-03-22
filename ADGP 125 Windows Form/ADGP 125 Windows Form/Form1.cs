@@ -8,9 +8,9 @@ namespace ADGP_125_Form
 {
     public partial class Form1 : Form
     {     
-        GM gameHandler = GM.instance;
-        List<Unit> attributeShower = new List<Unit>();
-        int listCount = -1;
+        GM gameHandler = GM.instance;                       //Instance of the GM
+        List<Unit> attributeShower = new List<Unit>();      //List to show the attribues of each unit within the game
+        int listCount = -2;                                 //Controls which unit is selected. Negative one to show first unit.
         public static BattleLog batLog = new BattleLog();
 
         public Form1()
@@ -59,27 +59,25 @@ namespace ADGP_125_Form
             battleTextBox.Visible = true;   //Turns on the Battle Box/Log
             button1.Visible = true;         //Turns on the Next Phase Button
             saveButton.Visible = true;      //Turns on the Save Button
-            loadGame.Visible = true;        //Turns on the Load Last Game Button     
+            loadGame.Visible = true;        //Turns on the Load Last Game Button  
+            switchButton.Visible = true;
+            switchButtonReverse.Visible = true;
         }
 
         private void switchButton_Click(object sender, EventArgs e)
         {
-                if (listCount < 0)  //If count Ever goes below 0, it's now 0
-                {
-                    listCount = 0;
-                }
-                cuName.Text = attributeShower[listCount].name;                  //Shows the Unit's name
-                cuHealth.Text = attributeShower[listCount].health.ToString() + " / " + attributeShower[listCount].maxHealth.ToString(); //Shows the current and max health of the unit.
-                cuAttack.Text = attributeShower[listCount].attack.ToString();   //Shows the attack power of the Unit
-                cuSpeed.Text = attributeShower[listCount].speed.ToString();     //Shows the Speed of the Unit
-                cuCurExp.Text = attributeShower[listCount].currExp.ToString() + " / " + attributeShower[listCount].maxExp.ToString();   //Shows the current exp and the Max EXP of the Unit
-                cuLevel.Text = attributeShower[listCount].level.ToString();     //Shows the level of the Unit.
-
-                listCount++;    //Enumeration through the list.
-                if (listCount >= attributeShower.Count)     //If Enumeration is above the capacity of the list.
-                {
-                    listCount = 0;      //Set to 0
-                }
+            listCount++;    //Enumeration through the list. 
+             
+            if (listCount >= attributeShower.Count || listCount < 0)     //If Enumeration is above the capacity of the list.
+            {
+                listCount = 0;      //Set to 0
+            }
+            cuName.Text = attributeShower[listCount].name;                  //Shows the Unit's name
+            cuHealth.Text = attributeShower[listCount].health.ToString() + " / " + attributeShower[listCount].maxHealth.ToString(); //Shows the current and max health of the unit.
+            cuAttack.Text = attributeShower[listCount].attack.ToString();   //Shows the attack power of the Unit
+            cuSpeed.Text = attributeShower[listCount].speed.ToString();     //Shows the Speed of the Unit
+            cuCurExp.Text = attributeShower[listCount].currExp.ToString() + " / " + attributeShower[listCount].maxExp.ToString();   //Shows the current exp and the Max EXP of the Unit
+            cuLevel.Text = attributeShower[listCount].level.ToString();     //Shows the level of the Unit.      
         }
 
         private void saveButton_Click(object sender, EventArgs e)   //Saving the state of the Game, Units, and Parties' states.
@@ -105,6 +103,23 @@ namespace ADGP_125_Form
             {
                 attributeShower.Add(u);
             }
+        }
+
+        private void switchButtonReverse_Click(object sender, EventArgs e)
+        {
+            listCount--;    //Enumeration through the list.
+            if (listCount < 0)  //If count Ever goes below 0, it's now 0
+            {
+                listCount = attributeShower.Count - 1;
+            }
+
+            
+            cuName.Text = attributeShower[listCount].name;                  //Shows the Unit's name
+            cuHealth.Text = attributeShower[listCount].health.ToString() + " / " + attributeShower[listCount].maxHealth.ToString(); //Shows the current and max health of the unit.
+            cuAttack.Text = attributeShower[listCount].attack.ToString();   //Shows the attack power of the Unit
+            cuSpeed.Text = attributeShower[listCount].speed.ToString();     //Shows the Speed of the Unit
+            cuCurExp.Text = attributeShower[listCount].currExp.ToString() + " / " + attributeShower[listCount].maxExp.ToString();   //Shows the current exp and the Max EXP of the Unit
+            cuLevel.Text = attributeShower[listCount].level.ToString();     //Shows the level of the Unit.           
         }
     }
 

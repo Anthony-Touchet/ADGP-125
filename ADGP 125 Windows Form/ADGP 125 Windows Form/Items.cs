@@ -6,7 +6,7 @@ namespace Items
     [Serializable]
     public class Item : IStats
     {
-        int _health;
+        int _health;    //How much the item will increase the Unit's Health
         int _attack;
         int _speed;
         string _name;

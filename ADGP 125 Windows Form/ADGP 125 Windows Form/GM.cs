@@ -140,37 +140,37 @@ namespace GameManager
         
         public GM SaveGame()    //Save the Units and the State of the Parties
         { 
-            var goodpath = Environment.CurrentDirectory + "/GoodSaveFile.xml";  //Makes the path to the file for the Good party.
+            var goodpath = Environment.CurrentDirectory + "/GoodSaveFile.xml";  //Makes the path to GoodSaveFile.xml
             FileStream goodSaveFile = File.Create(goodpath);                    //Actual creation of the path
 
             XmlSerializer serial = new XmlSerializer(typeof(Party));            //The object that will serialize a Party Object
             serial.Serialize(goodSaveFile, goodGuys);                           //Serializing the Party.
-            goodSaveFile.Close();                                               //Close this serializer.
+            goodSaveFile.Close();                                               //Close this file.
 
-            var badpath = Environment.CurrentDirectory + "/BadSaveFile.xml";
-            FileStream badSaveFile = File.Create(badpath);
+            var badpath = Environment.CurrentDirectory + "/BadSaveFile.xml";    //Get path for the BadSaveFile.xml
+            FileStream badSaveFile = File.Create(badpath);                      //Create that path
 
-            serial = new XmlSerializer(typeof(Party));
-            serial.Serialize(badSaveFile, badGuys);
-            badSaveFile.Close();
+            serial = new XmlSerializer(typeof(Party));                          //Reset serializer
+            serial.Serialize(badSaveFile, badGuys);                             //Serializing the Party.
+            badSaveFile.Close();                                                //Close the BadSaveFile
             return this;
         }
 
         public GM LoadGame() //Get Those Stats and states Back
         {
-            XmlSerializer reader = new XmlSerializer(typeof(Party));
+            XmlSerializer reader = new XmlSerializer(typeof(Party));    //Object that will read the xml files.
 
-            Party tempgoodGuys = new Party();
-            Party tempbadGuys = new Party();
+            Party tempgoodGuys = new Party();   //Temp party to hold the GoodGuys
+            Party tempbadGuys = new Party();    //Temp party to hold the BadGuys
 
-            StreamReader goodFile = new StreamReader(Environment.CurrentDirectory + "/GoodSaveFile.xml");
-            StreamReader badFile = new StreamReader(Environment.CurrentDirectory + "/BadSaveFile.xml");
+            StreamReader goodFile = new StreamReader(Environment.CurrentDirectory + "/GoodSaveFile.xml");   //Getting this reader set to the GoodSaveFile
+            StreamReader badFile = new StreamReader(Environment.CurrentDirectory + "/BadSaveFile.xml");     //Getting this reader set to the BadSaveFile
 
-            tempgoodGuys = (Party)reader.Deserialize(goodFile);
-            tempbadGuys = (Party)reader.Deserialize(badFile);
+            tempgoodGuys = (Party)reader.Deserialize(goodFile);     //Taking the info from GoodSaveFile and turning it back into a Party.
+            tempbadGuys = (Party)reader.Deserialize(badFile);       //Taking the info from BadSaveFile and turning it back into a Party.
 
-            goodGuys = tempgoodGuys;
-            badGuys = tempbadGuys;
+            goodGuys = tempgoodGuys;    //Setting GoodGuy Party
+            badGuys = tempbadGuys;      //Setting BadGuy Party
    
             return this;
         }

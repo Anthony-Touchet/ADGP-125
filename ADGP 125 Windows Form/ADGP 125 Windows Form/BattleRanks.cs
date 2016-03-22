@@ -33,7 +33,7 @@ namespace BattleRanks
 
         public Item uitem;      //The Item that the Unit will carry
 
-        public Unit()  //Unit Constructor
+        public Unit()  //Unit Default Constructor
         {
 
         }
