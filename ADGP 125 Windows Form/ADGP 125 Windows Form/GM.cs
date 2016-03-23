@@ -175,4 +175,21 @@ namespace GameManager
             return this;
         }
     }
+
+    public class BattleLog  //The Holding box for text that will show on the actual text box on this form.
+    {
+        public string BB = "";
+        static private BattleLog _instance;
+        static public BattleLog instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = new BattleLog();
+                }
+                return _instance;
+            }
+        }
+    }
 }
