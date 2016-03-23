@@ -80,7 +80,7 @@ namespace GameManager
                         if (goodGuys.team.IndexOf(goodGuys.currUnit) + 1 == goodGuys.team.Count)   //If Unit is at the End of a party.
                         {
                             goodGuys.currUnit = goodGuys.team[0];               //Next is Begining Unit
-                            goodGuys.turnHandler.SwitchStates(TurnStates.END, );  //Switch States to end Turn
+                            goodGuys.turnHandler.SwitchStates(TurnStates.END);  //Switch States to end Turn
                             badGuys.turnHandler.SwitchStates(TurnStates.USE);   //Set other FSM to start
                             goodGuys.turnHandler.SwitchStates(TurnStates.WAIT); //Set this FSM to Wait till next turn.
                         }
