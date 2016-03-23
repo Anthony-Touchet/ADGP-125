@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Xml;
+using GameManager;
+using Inferances;
 
 namespace FSM
 {
@@ -45,11 +45,11 @@ namespace FSM
             return true;
         }
 
-        public bool AddTransition(T from, T to) //Add a Transition to the key/state the player is from.
+        public bool AddTransition(T from, T to, Transition tf) //Add a Transition to the key/state the player is from.
         {
             Link<T> temp = new Link<T>();   //Setting up a temp transition variable
             temp.from = from;
-            temp.to = to;     
+            temp.to = to; 
                 
             if (trans.Contains(temp))  //Does this key/state already have this transition?
             {
@@ -61,7 +61,23 @@ namespace FSM
             return true;
         }
 
-        public T SwitchStates(T to)  //Changing the current state of a FSM to another state
+        public bool AddTransition(T from, T to) //Add a Transition to the key/state the player is from.
+        {
+            Link<T> temp = new Link<T>();   //Setting up a temp transition variable
+            temp.from = from;
+            temp.to = to;
+
+            if (trans.Contains(temp))  //Does this key/state already have this transition?
+            {
+                //If the transition Exists.
+                return false;
+            }
+
+            trans.Add(temp);   //Add transition to the list of transitions for that state/key
+            return true;
+        }
+
+        public T SwitchStates(T to, IParty par)  //Changing the current state of a FSM to another state
         {
             Link<T> temp = new Link<T>();   //Set up temp variable
             temp.from = this.currentState;  //Coming from the current state
@@ -71,7 +87,7 @@ namespace FSM
             {
                 if (l.Equals(temp)) //If Transition Exists, 
                 {
-                    this.currentState = l.to; //Current State equals the next state
+                    this.currentState = l.to; //Current State equals the next state                  
                     return currentState;
                 }
             }

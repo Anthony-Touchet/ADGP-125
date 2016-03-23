@@ -8,7 +8,7 @@ using GameManager;
 using System.Xml.Serialization;
 
 namespace BattleRanks
-{
+{ 
     [Serializable]
     public enum TurnStates  //States for the Party
     {
@@ -103,9 +103,9 @@ namespace BattleRanks
                 _name = value;
             }
         }
-
-
     }
+
+    
 
     [Serializable]
     public class Party : IParty    //The Object which will store the units and control their actions.
@@ -163,8 +163,7 @@ namespace BattleRanks
             turnHandler.AddState(TurnStates.END);
             turnHandler.AddTransition(TurnStates.WAIT, TurnStates.USE);     //Adding Valid Transitions between states for the FSM
             turnHandler.AddTransition(TurnStates.USE, TurnStates.ATTACK);
-            turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.USE);
-            turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.END);
+            turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.END, new GM()._attack);
             turnHandler.AddTransition(TurnStates.END, TurnStates.USE);
             turnHandler.AddTransition(TurnStates.END, TurnStates.WAIT);
         }

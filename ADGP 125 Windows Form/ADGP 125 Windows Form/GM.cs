@@ -2,12 +2,13 @@
 using BattleRanks;
 using Inferances;
 using Items;
-using System.Windows.Forms;
+using FSM;
 using System.Xml.Serialization;
 using System.IO;
 
 namespace GameManager
 {
+    public delegate GM Transition(IParty other);
     public class GM : IGameManager
     {
         static private GM _instance;        //GM is a Singleton. There should only ever be one.
@@ -64,7 +65,7 @@ namespace GameManager
 
         public TurnStates StartMachine()    //Starts the Machine that is between the Good Guys and the Bad Guys.
         {
-            goodGuys.turnHandler.SwitchStates(TurnStates.USE);   //Use is the first action to be done.
+            goodGuys.turnHandler.SwitchStates(TurnStates.USE, goodGuys);   //Use is the first action to be done.
             return TurnStates.USE;
         }
 
@@ -79,7 +80,7 @@ namespace GameManager
                         if (goodGuys.team.IndexOf(goodGuys.currUnit) + 1 == goodGuys.team.Count)   //If Unit is at the End of a party.
                         {
                             goodGuys.currUnit = goodGuys.team[0];               //Next is Begining Unit
-                            goodGuys.turnHandler.SwitchStates(TurnStates.END);  //Switch States to end Turn
+                            goodGuys.turnHandler.SwitchStates(TurnStates.END, );  //Switch States to end Turn
                             badGuys.turnHandler.SwitchStates(TurnStates.USE);   //Set other FSM to start
                             goodGuys.turnHandler.SwitchStates(TurnStates.WAIT); //Set this FSM to Wait till next turn.
                         }
@@ -93,7 +94,7 @@ namespace GameManager
 
                     case "USE":
                         goodGuys.UseItem();  //Unit uses item on itself
-                        goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
+                        goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK, badGuys);
                         break;
 
                     case "WAIT":    //Can not do anything because it is the other party's turn
@@ -172,6 +173,12 @@ namespace GameManager
             goodGuys = tempgoodGuys;    //Setting GoodGuy Party
             badGuys = tempbadGuys;      //Setting BadGuy Party
    
+            return this;
+        }
+
+        public GM _attack(IParty other)
+        {
+            
             return this;
         }
     }
