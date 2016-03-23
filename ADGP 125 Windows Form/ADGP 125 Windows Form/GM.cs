@@ -65,7 +65,7 @@ namespace GameManager
 
         public TurnStates StartMachine()    //Starts the Machine that is between the Good Guys and the Bad Guys.
         {
-            goodGuys.turnHandler.SwitchStates(TurnStates.USE, goodGuys);   //Use is the first action to be done.
+            goodGuys.turnHandler.SwitchStates(TurnStates.USE);   //Use is the first action to be done.
             return TurnStates.USE;
         }
 
@@ -94,7 +94,7 @@ namespace GameManager
 
                     case "USE":
                         goodGuys.UseItem();  //Unit uses item on itself
-                        goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK, badGuys);
+                        goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
                         break;
 
                     case "WAIT":    //Can not do anything because it is the other party's turn
@@ -173,12 +173,6 @@ namespace GameManager
             goodGuys = tempgoodGuys;    //Setting GoodGuy Party
             badGuys = tempbadGuys;      //Setting BadGuy Party
    
-            return this;
-        }
-
-        public GM _attack(IParty other)
-        {
-            
             return this;
         }
     }

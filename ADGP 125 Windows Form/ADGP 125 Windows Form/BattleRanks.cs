@@ -163,7 +163,7 @@ namespace BattleRanks
             turnHandler.AddState(TurnStates.END);
             turnHandler.AddTransition(TurnStates.WAIT, TurnStates.USE);     //Adding Valid Transitions between states for the FSM
             turnHandler.AddTransition(TurnStates.USE, TurnStates.ATTACK);
-            turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.END, new GM()._attack);
+            turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.END);
             turnHandler.AddTransition(TurnStates.END, TurnStates.USE);
             turnHandler.AddTransition(TurnStates.END, TurnStates.WAIT);
         }

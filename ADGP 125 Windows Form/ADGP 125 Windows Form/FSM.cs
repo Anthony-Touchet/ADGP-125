@@ -45,7 +45,7 @@ namespace FSM
             return true;
         }
 
-        public bool AddTransition(T from, T to, Transition tf) //Add a Transition to the key/state the player is from.
+        public bool AddTransition(T from, T to) //Add a Transition to the key/state the player is from.
         {
             Link<T> temp = new Link<T>();   //Setting up a temp transition variable
             temp.from = from;
@@ -61,23 +61,7 @@ namespace FSM
             return true;
         }
 
-        public bool AddTransition(T from, T to) //Add a Transition to the key/state the player is from.
-        {
-            Link<T> temp = new Link<T>();   //Setting up a temp transition variable
-            temp.from = from;
-            temp.to = to;
-
-            if (trans.Contains(temp))  //Does this key/state already have this transition?
-            {
-                //If the transition Exists.
-                return false;
-            }
-
-            trans.Add(temp);   //Add transition to the list of transitions for that state/key
-            return true;
-        }
-
-        public T SwitchStates(T to, IParty par)  //Changing the current state of a FSM to another state
+        public T SwitchStates(T to)  //Changing the current state of a FSM to another state
         {
             Link<T> temp = new Link<T>();   //Set up temp variable
             temp.from = this.currentState;  //Coming from the current state
