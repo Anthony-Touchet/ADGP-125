@@ -8,7 +8,8 @@ using GameManager;
 using System.Xml.Serialization;
 
 namespace BattleRanks
-{ 
+{
+
     [Serializable]
     public enum TurnStates  //States for the Party
     {
@@ -116,6 +117,9 @@ namespace BattleRanks
         List<Unit> _team = new List<Unit>();
         Unit _currUnit;
 
+        transition use = _UseItem;  //When states switch to the Use state, they will call this function. the parameters are itself.
+        transition attack = ;
+
         public List<Unit> team
         {
             get
@@ -158,9 +162,9 @@ namespace BattleRanks
 
         public Party()
         {
-            turnHandler.AddState(TurnStates.USE);       //Adds States to the Party's FSM
-            turnHandler.AddState(TurnStates.ATTACK);
-            turnHandler.AddState(TurnStates.END);
+            turnHandler.AddState(TurnStates.USE, use);       //Adds States to the Party's FSM
+            turnHandler.AddState(TurnStates.ATTACK, attack);
+            turnHandler.AddState(TurnStates.END, null);
             turnHandler.AddTransition(TurnStates.WAIT, TurnStates.USE);     //Adding Valid Transitions between states for the FSM
             turnHandler.AddTransition(TurnStates.USE, TurnStates.ATTACK);
             turnHandler.AddTransition(TurnStates.ATTACK, TurnStates.END);
@@ -232,15 +236,15 @@ namespace BattleRanks
             return false;           //No one has health and return false.
         }
 
-        public Unit UseItem()   //Party uses Unit's item on the Unit
+        public static IParty _UseItem(IParty other)   //Party uses Unit's item on the Unit
         {
-            if(currUnit.health <= (currUnit.maxHealth / 2) && currUnit.health > 0 && currUnit.uitem.health > 0)
+            if(other.currUnit.health <= (other.currUnit.maxHealth / 2) && other.currUnit.health > 0 && other.currUnit.uitem.health > 0)
             {
-                currUnit.health += currUnit.uitem.health;   //Give Unit Item's Health
-                BatLog.BB += (currUnit.name + " uses " + currUnit.uitem.name + " and has " + currUnit.health + " health. ");
-                currUnit.uitem.health = 0;  //Set item's health to 0
+                other.currUnit.health += other.currUnit.uitem.health;   //Give Unit Item's Health
+                BatLog.BB += (other.currUnit.name + " uses " + other.currUnit.uitem.name + " and has " + other.currUnit.health + " health. ");
+                other.currUnit.uitem.health = 0;  //Set item's health to 0
             }
-            return currUnit;
+            return other;
         }
 
         public void CheckLevl(Unit other) //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
