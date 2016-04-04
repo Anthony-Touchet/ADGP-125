@@ -312,7 +312,6 @@ namespace ADGP_125_Form
             this.loadGame.TabIndex = 26;
             this.loadGame.Text = "Load Last Game";
             this.loadGame.UseVisualStyleBackColor = true;
-            this.loadGame.Visible = false;
             this.loadGame.Click += new System.EventHandler(this.loadGame_Click);
             // 
             // label9
