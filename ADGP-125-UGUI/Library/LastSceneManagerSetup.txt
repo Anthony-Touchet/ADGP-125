@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/ADGP-125-GUI.unity
-  isLoaded: 1
-  isActive: 1
