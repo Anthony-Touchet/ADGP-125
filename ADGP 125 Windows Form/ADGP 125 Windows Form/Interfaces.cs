@@ -48,6 +48,12 @@ namespace Inferances
     {
         List<Unit> team { get; set; }                     //Actual Storage of the Units
         Unit currUnit { get; set; }   //Unit that is currently being used for the party's actions
+<<<<<<< HEAD
         FSM<TurnStates> turnHandler { get; set; }
+=======
+
+        IParty Attack(IParty other);
+        Unit UseItem();
+>>>>>>> parent of 782cfae... Small Changes
     }
 }

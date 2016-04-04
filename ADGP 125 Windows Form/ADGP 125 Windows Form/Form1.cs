@@ -51,7 +51,7 @@ namespace ADGP_125_Form
                 attributeShower.Add(u);
             }
 
-            gameHandler.StartMachine(); //Function that Starts the Machine.
+            gameHandler.goodGuys.turnHandler.currentState = gameHandler.StartMachine(); //Function that Starts the Machine.
             ggPhase.Text = gameHandler.goodGuys.turnHandler.currentState.ToString();    //Displays the name of the Current state the Good Guys are in.
             bgPhase.Text = gameHandler.badGuys.turnHandler.currentState.ToString();     //Displays the name of the Current State the Bad Guys are in.
             battleTextBox.Text = "";            //Making sure the textbox is Empty
@@ -83,7 +83,6 @@ namespace ADGP_125_Form
         private void saveButton_Click(object sender, EventArgs e)   //Saving the state of the Game, Units, and Parties' states.
         {
             gameHandler.SaveGame();
-            battleTextBox.AppendText("Your Current Game has been Saved!!!!" + "\n");
         }
 
         private void loadGame_Click(object sender, EventArgs e)     //Load the States of the last Game that was saved.
@@ -108,7 +107,7 @@ namespace ADGP_125_Form
 
         private void switchButtonReverse_Click(object sender, EventArgs e)
         {
-            listCount--;        //Enumeration through the list.
+            listCount--;    //Enumeration through the list.
             if (listCount < 0)  //If count Ever goes below 0, it's now 0
             {
                 listCount = attributeShower.Count - 1;

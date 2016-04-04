@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using Inferances;
+=======
+>>>>>>> parent of 782cfae... Small Changes
 
 namespace FSM
 {
@@ -9,6 +12,7 @@ namespace FSM
     [Serializable]
     public class FSM<T>   //Finite State Machine.
     {
+<<<<<<< HEAD
         [Serializable]
         public struct Link     //Item that holds the transition. THis is a single transition.
         {
@@ -32,6 +36,11 @@ namespace FSM
         public State currentState;  //Current State of the FSM
         public List<State> states;
         public List<Link> trans;
+=======
+        public T currentState;  //Current State of the FSM
+        public List<T> states;
+        public List<Link<T>> trans;
+>>>>>>> parent of 782cfae... Small Changes
 
         public FSM()
         {
