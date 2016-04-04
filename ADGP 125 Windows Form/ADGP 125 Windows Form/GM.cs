@@ -2,13 +2,12 @@
 using BattleRanks;
 using Inferances;
 using Items;
-using FSM;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using System.IO;
 
 namespace GameManager
 {
-    public delegate GM Transition(IParty other);
     public class GM : IGameManager
     {
         static private GM _instance;        //GM is a Singleton. There should only ever be one.
@@ -65,7 +64,7 @@ namespace GameManager
 
         public TurnStates StartMachine()    //Starts the Machine that is between the Good Guys and the Bad Guys.
         {
-            goodGuys.turnHandler.SwitchStates(TurnStates.USE, goodGuys);   //Use is the first action to be done.
+            goodGuys.turnHandler.SwitchStates(TurnStates.USE);   //Use is the first action to be done.
             return TurnStates.USE;
         }
 
@@ -80,35 +79,21 @@ namespace GameManager
                         if (goodGuys.team.IndexOf(goodGuys.currUnit) + 1 == goodGuys.team.Count)   //If Unit is at the End of a party.
                         {
                             goodGuys.currUnit = goodGuys.team[0];               //Next is Begining Unit
-<<<<<<< HEAD
-                            goodGuys.turnHandler.SwitchStates(TurnStates.END, goodGuys);  //Switch States to end Turn
-                            badGuys.turnHandler.SwitchStates(TurnStates.USE, badGuys);   //Set other FSM to start
-                            goodGuys.turnHandler.SwitchStates(TurnStates.WAIT, goodGuys); //Set this FSM to Wait till next turn.
-=======
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.END);  //Switch States to end Turn
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.USE);   //Set other FSM to start
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.WAIT); //Set this FSM to Wait till next turn.
->>>>>>> parent of 782cfae... Small Changes
+                            goodGuys.turnHandler.SwitchStates(TurnStates.END);  //Switch States to end Turn
+                            badGuys.turnHandler.SwitchStates(TurnStates.USE);   //Set other FSM to start
+                            goodGuys.turnHandler.SwitchStates(TurnStates.WAIT); //Set this FSM to Wait till next turn.
                         }
 
                         else
                         {
                             goodGuys.currUnit = goodGuys.team[goodGuys.team.IndexOf(goodGuys.currUnit) + 1];    //Set current Unit to the next one in the list
-<<<<<<< HEAD
-                            goodGuys.turnHandler.SwitchStates(TurnStates.USE, goodGuys);       //Reset this FSM for next Unit
-=======
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
->>>>>>> parent of 782cfae... Small Changes
+                            goodGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
                         }
                         break;
 
                     case "USE":
-<<<<<<< HEAD
-                        goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK, badGuys);
-=======
                         goodGuys.UseItem();  //Unit uses item on itself
-                        goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
->>>>>>> parent of 782cfae... Small Changes
+                        goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
                         break;
 
                     case "WAIT":    //Can not do anything because it is the other party's turn
@@ -125,35 +110,21 @@ namespace GameManager
                         if (badGuys.team.IndexOf(badGuys.currUnit) + 1 == badGuys.team.Count)   //If Unit is at the End of a party.
                         {
                             badGuys.currUnit = badGuys.team[0];             //Next is Begining Unit
-<<<<<<< HEAD
-                            badGuys.turnHandler.SwitchStates(TurnStates.END, goodGuys);       //Switch States to end Turn
-                            goodGuys.turnHandler.SwitchStates(TurnStates.USE, goodGuys);      //Set other FSM to start
-                            badGuys.turnHandler.SwitchStates(TurnStates.WAIT, goodGuys);      //Set this FSM to Wait till next turn.
-=======
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.END);       //Switch States to end Turn
-                            goodGuys.turnHandler.currentState = goodGuys.turnHandler.SwitchStates(TurnStates.USE);      //Set other FSM to start
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.WAIT);      //Set this FSM to Wait till next turn.
->>>>>>> parent of 782cfae... Small Changes
+                            badGuys.turnHandler.SwitchStates(TurnStates.END);       //Switch States to end Turn
+                            goodGuys.turnHandler.SwitchStates(TurnStates.USE);      //Set other FSM to start
+                            badGuys.turnHandler.SwitchStates(TurnStates.WAIT);      //Set this FSM to Wait till next turn.
                         }
 
                         else
                         {
                             badGuys.currUnit = badGuys.team[badGuys.team.IndexOf(badGuys.currUnit) + 1];    //Set current Unit to the next one in the list
-<<<<<<< HEAD
-                            badGuys.turnHandler.SwitchStates(TurnStates.USE, badGuys);       //Reset this FSM for next Unit
-=======
-                            badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
->>>>>>> parent of 782cfae... Small Changes
+                            badGuys.turnHandler.SwitchStates(TurnStates.USE);       //Reset this FSM for next Unit
                         }
                         break;
 
                     case "USE":
-<<<<<<< HEAD
-                        badGuys.turnHandler.SwitchStates(TurnStates.ATTACK, goodGuys);
-=======
                         badGuys.UseItem();  //Unit uses item on itself
-                        badGuys.turnHandler.currentState = badGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
->>>>>>> parent of 782cfae... Small Changes
+                        badGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
                         break;
 
                     case "WAIT":    //Can not do anything because it is the other party's turn
@@ -202,23 +173,6 @@ namespace GameManager
             badGuys = tempbadGuys;      //Setting BadGuy Party
    
             return this;
-        }
-    }
-
-    public class BattleLog  //The Holding box for text that will show on the actual text box on this form.
-    {
-        public string BB = "";
-        static private BattleLog _instance;
-        static public BattleLog instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new BattleLog();
-                }
-                return _instance;
-            }
         }
     }
 }
