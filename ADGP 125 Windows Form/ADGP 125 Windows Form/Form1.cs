@@ -26,12 +26,12 @@ namespace ADGP_125_Form
             GPCurrentUnit.Text = gameHandler.goodGuys.currUnit.name;                    //Shows Current Unit of the Good Party
             BPCurrentUnit.Text = gameHandler.badGuys.currUnit.name;                     //SHows Current Unit of the Bad Party
                 
-            battleTextBox.AppendText(Party.BatLog.BB.Text);   //Append Text to RichTextBox
-            if(Party.BatLog.BB.Text != "")  //If the TextLog is not empty, add a line space.
+            battleTextBox.AppendText(Party.BatLog.BB);   //Append Text to RichTextBox
+            if(Party.BatLog.BB != "")  //If the TextLog is not empty, add a line space.
             {
                 battleTextBox.AppendText("\n");
             }
-            Party.BatLog.BB.Text = "";        //Clear Singleton's Text
+            Party.BatLog.BB = "";        //Clear Singleton's Text
         }
 
         private void startFSM(object sender, EventArgs e)   //Starts The FSM, Generates Units, and Turns on Buttons.
@@ -122,22 +122,5 @@ namespace ADGP_125_Form
             cuCurExp.Text = attributeShower[listCount].currExp.ToString() + " / " + attributeShower[listCount].maxExp.ToString();   //Shows the current exp and the Max EXP of the Unit
             cuLevel.Text = attributeShower[listCount].level.ToString();     //Shows the level of the Unit.           
         }
-    }
-
-    public class BattleLog  //The Holding box for text that will show on the actual text box on this form.
-    {
-        public RichTextBox BB = new RichTextBox();
-        static private BattleLog _instance;
-        static public BattleLog instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new BattleLog();
-                }
-                return _instance;
-            }
-        }
-    }
+    }   
 }
