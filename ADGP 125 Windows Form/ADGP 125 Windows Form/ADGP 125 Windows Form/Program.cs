@@ -1,10 +1,11 @@
-﻿using System;
+﻿using ADGP_125_Form;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ADGP_125_Form
+namespace ADGP_125_Windows_Form
 {
     static class Program
     {
