@@ -246,31 +246,43 @@ namespace BattleRanks
 
         public void CheckLevl(Unit other) //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
         {
-            if (other.currExp >= other.maxExp)   //If current experiance is greater or equal to the max experiance.
+            int tempLev = other.level;
+            int baseint = 10;       //How much each level will increment by.
+            double expCh = 10;      //Changing base change
+            double Unused = 0;
+
+            for (int lev = other.level; lev > 1; lev--)
             {
-                other.currExp = 0;    //Current experiance set to 0
-                other.maxExp = other.maxExp * 1.1;  //Next level need 10 percent more experiance to get to.
-                BatLog += (other.name + " is now at level " + (other.level + 1) + ". \n");
-                if (other.level % 3 == 0 || other.level == 0)   // Level is 0 or Divisable by 3
+                expCh += baseint;
+                Unused = expCh;
+            }
+
+            for (expCh = Unused; expCh + baseint < other.currExp; expCh += baseint)     //Extra EXP
+            {
+                tempLev++;
+                if (tempLev % 3 == 0 || tempLev == 0)   // Level is 0 or Divisable by 3
                 {
                     other.maxHealth += 10;    //Increase Max Health by 10
-                    BatLog += ("And has gained 10 max health. \n");
+                    BatLog += ("And has gained 10 max health. ");
                 }
 
-                else if (other.level % 3 == 1) //if level has a remainder of 1.
+                else if (tempLev % 3 == 1) //if level has a remainder of 1.
                 {
                     other.attack += 10;   //Increase Attack by 10
-                    BatLog += ("And has gained 10 attack damage. \n");
+                    BatLog += ("And has gained 10 attack damage. ");
                 }
 
-                else if (other.level % 3 == 2)    //if Level has a remainder of 2
+                else if (tempLev % 3 == 2)    //if Level has a remainder of 2
                 {
                     other.speed += 10;    //Increase speed by 10
-                    BatLog += ("And has gained 10 speed. \n");
+                    BatLog += ("And has gained 10 speed. ");
                 }
-                other.health = other.maxHealth;
-                other.level++;    //Increase level by 1
             }
+
+            other.level = tempLev;
+            other.health = other.maxHealth;
+            BatLog += (other.name + " is now at level " + other.level + ". ");
+            return other;
         }
     }
 }
