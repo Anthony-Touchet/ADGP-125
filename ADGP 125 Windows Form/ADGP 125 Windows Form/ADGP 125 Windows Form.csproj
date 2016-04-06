@@ -34,9 +34,14 @@
   </PropertyGroup>
   <ItemGroup>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <Reference Include="FSM, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>.\FSM.dll</HintPath>
+=======
+    <Reference Include="FSM">
+      <HintPath>..\..\ADGP-125-UGUI\FSM.dll</HintPath>
+>>>>>>> parent of 1fef66a... changes
     </Reference>
 =======
 >>>>>>> parent of f1d465e... Small fixes

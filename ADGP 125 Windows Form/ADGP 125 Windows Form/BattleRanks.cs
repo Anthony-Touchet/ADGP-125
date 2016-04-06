@@ -210,7 +210,7 @@ namespace BattleRanks
                             BatLog.BB.AppendText(other.team[a].name + " has died!! " + currUnit.name + " has gained 10 experiance. ");  //They died
                             other.team[a].health = 0;   //Sets other's health to 0
                             currUnit.currExp += 10; //Award current Unit Experiance
-                            currUnit = this.CheckLevl(currUnit);   //Check Current Unit's Level
+                            this.CheckLevl(currUnit);   //Check Current Unit's Level
                         }
                         break;  //Stop loop
                     }
@@ -244,42 +244,33 @@ namespace BattleRanks
             return currUnit;
         }
 
-        public Unit CheckLevl(Unit other) //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
+        public void CheckLevl(Unit other) //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
         {
-            int tempLev = other.level;
-            int baseint = 10;       //How much each level will increment by.
-            double expCh = 10;      //Changing base change
-            double Unused = 0;
-
-            for (int lev = other.level; lev > 1; lev--)
+            if (other.currExp >= other.maxExp)   //If current experiance is greater or equal to the max experiance.
             {
-                expCh += baseint;
-                Unused = expCh;
-            }
-
-            for (expCh = Unused; expCh + baseint < other.currExp; expCh += baseint)     //Extra EXP
-            {
-                tempLev++;
-                if (tempLev % 3 == 0 || tempLev == 0)   // Level is 0 or Divisable by 3
+                other.currExp = 0;    //Current experiance set to 0
+                other.maxExp = other.maxExp * 1.1;  //Next level need 10 percent more experiance to get to.
+                BatLog.BB.AppendText(other.name + " is now at level " + (other.level + 1) + ". ");
+                if (other.level % 3 == 0 || other.level == 0)   // Level is 0 or Divisable by 3
                 {
                     other.maxHealth += 10;    //Increase Max Health by 10
+                    BatLog.BB.AppendText("And has gained 10 max health. ");
                 }
 
-                else if (tempLev % 3 == 1) //if level has a remainder of 1.
+                else if (other.level % 3 == 1) //if level has a remainder of 1.
                 {
                     other.attack += 10;   //Increase Attack by 10
+                    BatLog.BB.AppendText("And has gained 10 attack damage. ");
                 }
 
-                else if (tempLev % 3 == 2)    //if Level has a remainder of 2
+                else if (other.level % 3 == 2)    //if Level has a remainder of 2
                 {
                     other.speed += 10;    //Increase speed by 10
+                    BatLog.BB.AppendText("And has gained 10 speed. ");
                 }
+                other.health = other.maxHealth;
+                other.level++;    //Increase level by 1
             }
-
-            other.level = tempLev;
-            other.health = other.maxHealth;
-            Console.WriteLine(other.level);
-            return other;
         }
     }
 }
