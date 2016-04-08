@@ -11,10 +11,10 @@ namespace FSM
     public class FSM <T>   //Finite State Machine.
     {
         [Serializable]
-        internal class Link<T>      //Item that holds the transition. THis is a single transition.
+        internal class Link<S>      //Item that holds the transition. THis is a single transition.
         {
-            public T from;
-            public T to;
+            public S from;
+            public S to;
             public Del leav;
             public Del enter;
         }

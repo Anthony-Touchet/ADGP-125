@@ -92,7 +92,7 @@ namespace GameManager
                         break;
 
                     case "USE":
-                        goodGuys.UseItem();  //Unit uses item on itself
+                        goodGuys.UseItem(goodGuys);  //Unit uses item on itself
                         goodGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
                         break;
 
@@ -123,7 +123,7 @@ namespace GameManager
                         break;
 
                     case "USE":
-                        badGuys.UseItem();  //Unit uses item on itself
+                        badGuys.UseItem(badGuys);  //Unit uses item on itself
                         badGuys.turnHandler.SwitchStates(TurnStates.ATTACK);
                         break;
 

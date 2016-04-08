@@ -51,6 +51,6 @@ namespace Inferances
         FSM<TurnStates> turnHandler { get; set; }
 
         IParty Attack(IParty other);
-        Unit UseItem();
+        IParty UseItem(IParty other);
     }
 }

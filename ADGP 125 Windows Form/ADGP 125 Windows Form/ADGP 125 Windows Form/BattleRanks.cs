@@ -116,6 +116,8 @@ namespace BattleRanks
         List<Unit> _team = new List<Unit>();
         Unit _currUnit;
 
+        Del attack = Attack;
+
         public List<Unit> team
         {
             get
@@ -233,7 +235,7 @@ namespace BattleRanks
             return false;           //No one has health and return false.
         }
 
-        public Unit UseItem()   //Party uses Unit's item on the Unit
+        public IParty UseItem(IParty other)   //Party uses Unit's item on the Unit
         {
             if(currUnit.health <= (currUnit.maxHealth / 2) && currUnit.health > 0 && currUnit.uitem.health > 0)
             {
@@ -241,7 +243,7 @@ namespace BattleRanks
                 BatLog.BB.AppendText(currUnit.name + " uses " + currUnit.uitem.name + " and has " + currUnit.health + " health. ");
                 currUnit.uitem.health = 0;  //Set item's health to 0
             }
-            return currUnit;
+            return this;
         }
 
         public Unit CheckLevl(Unit other) //Checks to see if the Unit can increase its level and obtain the stat increases that comes with it.
