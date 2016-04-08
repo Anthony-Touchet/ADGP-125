@@ -36,10 +36,10 @@ namespace FSM_with_Delagates
             fsm.AddState(Turns.USE);
             fsm.AddState(Turns.ATTACK);
             fsm.AddState(Turns.END);
-            fsm.AddTransition(Turns.WAIT, Turns.USE, u);
-            fsm.AddTransition(Turns.USE, Turns.ATTACK, a);
-            fsm.AddTransition(Turns.ATTACK, Turns.END, e);
-            fsm.AddTransition(Turns.END, Turns.USE, null);
+            fsm.AddTransition(Turns.WAIT, Turns.USE, null, u);
+            fsm.AddTransition(Turns.USE, Turns.ATTACK, null, a);
+            fsm.AddTransition(Turns.ATTACK, Turns.END, null, e);
+            fsm.AddTransition(Turns.END, Turns.USE, null, null);
 
             fsm.SwitchStates(Turns.USE);
             fsm.SwitchStates(Turns.ATTACK);

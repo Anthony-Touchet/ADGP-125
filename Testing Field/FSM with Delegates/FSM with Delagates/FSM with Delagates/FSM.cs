@@ -49,13 +49,14 @@ namespace FSM
             return true;
         }
 
-        public bool AddTransition(T from, T to, Del d) //Add a Transition to the key/state the player is from.
+        public bool AddTransition(T from, T to, Del l, Del e) //Add a Transition to the key/state the player is from.
         {
             Link<T> temp = new Link<T>();   //Setting up a temp transition variable
             temp.from = from;
             temp.to = to;
-            temp.del = d;  
-                
+            temp.leav = l;
+            temp.enter = e;
+
             if (trans.Contains(temp))  //Does this key/state already have this transition?
             {
                 //If the transition Exists.
@@ -76,10 +77,16 @@ namespace FSM
             {
                 if (l.to.ToString() == temp.to.ToString() && l.from.ToString() == temp.from.ToString()) //If Transition Exists, 
                 {
-                    this.currentState = l.to; //Current State equals the next state
-                    if(l.del != null)
+                    if (l.leav != null)
                     {
-                        l.del.Invoke();
+                        l.leav.Invoke();
+                    }
+
+                    this.currentState = l.to; //Current State equals the next state
+
+                    if(l.enter != null)
+                    {
+                        l.enter.Invoke();
                     }
                     
                     return currentState;
