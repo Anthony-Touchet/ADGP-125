@@ -5,6 +5,8 @@ using System.Windows;
 
 namespace FSM
 {
+    public delegate void Del();
+
     [Serializable]
     public class FSM <T>   //Finite State Machine.
     {
@@ -13,8 +15,8 @@ namespace FSM
         {
             public T from;
             public T to;
-            public Delegate del;
-
+            public Del leav;
+            public Del enter;
         }
 
         public T currentState;  //Current State of the FSM
@@ -47,7 +49,7 @@ namespace FSM
             return true;
         }
 
-        public bool AddTransition(T from, T to, Delegate d) //Add a Transition to the key/state the player is from.
+        public bool AddTransition(T from, T to, Del d) //Add a Transition to the key/state the player is from.
         {
             Link<T> temp = new Link<T>();   //Setting up a temp transition variable
             temp.from = from;
@@ -72,12 +74,12 @@ namespace FSM
 
             foreach (Link<T> l in trans)  //Check Transitions for this State/Key
             {
-                if (l.Equals(temp)) //If Transition Exists, 
+                if (l.to.ToString() == temp.to.ToString() && l.from.ToString() == temp.from.ToString()) //If Transition Exists, 
                 {
                     this.currentState = l.to; //Current State equals the next state
                     if(l.del != null)
                     {
-                        l.del.DynamicInvoke();
+                        l.del.Invoke();
                     }
                     
                     return currentState;

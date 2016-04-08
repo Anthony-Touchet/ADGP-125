@@ -26,8 +26,6 @@ namespace FSM_with_Delagates
             END = 3,
         }
 
-        delegate void Del();
-
         static Del a = Attack;
         static Del u = Use;
         static Del e = End;
